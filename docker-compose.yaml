@@ -1,0 +1,60 @@
+version: '3.8'
+services:
+
+    # database
+    demo-app-db:
+        image: mariadb:10.5
+        volumes:
+          - dbdata:/var/lib/mysql
+        environment:
+          MYSQL_ROOT_PASSWORD: 12345678
+        ports:
+            - 3306:3306
+        networks:
+          - production
+          
+    # Application
+    demo-app:
+        container_name: demo-app
+        build:
+            context: .
+            dockerfile: ./docker/app.dockerfile
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        depends_on:
+            - "demo-app-db"
+        networks:
+          - production
+
+    # Web Server
+    demo-web:
+        build:
+            context: .
+            dockerfile: ./docker/web.dockerfile
+        working_dir: /var/www
+        volumes:
+            - ./:/var/www
+        depends_on:
+            - "demo-app"
+        ports:
+            - 80:80
+        networks:
+          - production
+
+    # NPM 
+    npm:  
+        image: node:18
+        working_dir: /var/www
+        entrypoint: ["npm"]
+        volumes: 
+            - "./:/var/www"
+
+
+networks:
+  production:
+    external: true
+    
+
+volumes:
+  dbdata:
