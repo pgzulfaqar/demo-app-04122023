@@ -3,11 +3,13 @@ services:
 
     # database
     demo-app-db:
+        container_name: demo-app-db
         image: mariadb:10.5
         volumes:
           - dbdata:/var/lib/mysql
         environment:
           MYSQL_ROOT_PASSWORD: 12345678
+          MYSQL_DATABASE: demoapp
         ports:
             - 3306:3306
         networks:
@@ -29,6 +31,7 @@ services:
 
     # Web Server
     demo-web:
+        container_name: demo-web
         build:
             context: .
             dockerfile: ./docker/web.dockerfile
@@ -49,7 +52,8 @@ services:
         entrypoint: ["npm"]
         volumes: 
             - "./:/var/www"
-
+        networks:
+          - production
 
 networks:
   production:
