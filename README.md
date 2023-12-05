@@ -91,7 +91,7 @@ If the ID were present in database, the result will display:
 ├─────────────────┼───────────────────────┤
 │ Status          │ Completed             │
 ├─────────────────┼───────────────────────┤
-│ Created at      │ 1/1/1970, 12:00:00 AM │
+│ Created at      │ 12/5/2023, 6:02:01 PM │
 ├─────────────────┼───────────────────────┤
 │ Last updated at │ 12/5/2023, 6:02:01 PM │
 └─────────────────┴───────────────────────┘
@@ -325,3 +325,8 @@ During the development cycle, all the functionality for each of the API route we
 6. delete existing task
 
 ![](public/assets/images/phpunit-test.png)
+
+To re-assest the result, we can run this command:
+```
+docker exec demo-app php artisan test --filter TaskTest
+```
